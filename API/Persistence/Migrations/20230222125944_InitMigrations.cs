@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace API.Persistence.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class InitMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -45,14 +45,42 @@ namespace API.Persistence.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Photos",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsMain = table.Column<bool>(type: "bit", nullable: false),
+                    AnimalId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Photos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Photos_Animals_AnimalId",
+                        column: x => x.AnimalId,
+                        principalTable: "Animals",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Animals_SpecieId",
                 table: "Animals",
                 column: "SpecieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Photos_AnimalId",
+                table: "Photos",
+                column: "AnimalId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Photos");
+
             migrationBuilder.DropTable(
                 name: "Animals");
 

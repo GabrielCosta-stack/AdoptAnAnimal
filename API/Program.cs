@@ -1,3 +1,5 @@
+using API.Infrastructure.AppPhotos;
+using API.Infrastructure.Interfaces;
 using API.Persistence;
 using API.Repositories;
 using API.Repositories.Interfaces;
@@ -27,6 +29,10 @@ builder.Services.AddCors(opt => {
 });
 
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
+
+builder.Services.AddScoped<IPhotoAccessor, PhotoAccessor>();
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
 
 var app = builder.Build();
 

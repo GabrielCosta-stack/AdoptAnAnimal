@@ -13,5 +13,7 @@ namespace API.Repositories.Interfaces
         Task DeleteAsync(T entity);
 
         Task<bool> ExistAsync(Guid id);
+
+        Task<bool> SaveAllAsync();
     }
 }

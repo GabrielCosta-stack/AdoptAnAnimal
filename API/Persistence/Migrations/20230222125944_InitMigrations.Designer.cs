@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230221124744_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20230222125944_InitMigrations")]
+    partial class InitMigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,6 +58,31 @@ namespace API.Persistence.Migrations
                     b.ToTable("Animals");
                 });
 
+            modelBuilder.Entity("API.Entities.Photo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("AnimalId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AnimalId");
+
+                    b.ToTable("Photos");
+                });
+
             modelBuilder.Entity("API.Entities.Specie", b =>
                 {
                     b.Property<Guid>("Id")
@@ -82,6 +107,18 @@ namespace API.Persistence.Migrations
                         .HasForeignKey("SpecieId");
 
                     b.Navigation("Specie");
+                });
+
+            modelBuilder.Entity("API.Entities.Photo", b =>
+                {
+                    b.HasOne("API.Entities.Animal", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("AnimalId");
+                });
+
+            modelBuilder.Entity("API.Entities.Animal", b =>
+                {
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

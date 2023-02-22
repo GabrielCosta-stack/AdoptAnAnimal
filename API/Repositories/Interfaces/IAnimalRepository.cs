@@ -7,8 +7,11 @@ using API.Entities;
 
 namespace API.Repositories.Interfaces
 {
-    public interface IAnimalRepository
+    public interface IAnimalRepository : IGenericRepository<Animal>
     {
         Task<Result<List<Animal>>> GetAllAnimals();
+
+        Task<Animal> GetAnimalById(Guid id);
+        
     }
 }
