@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using API.Entities.Interfaces;
 
 namespace API.Entities
 {
-    public class Animal
+    public class Animal : IEntity
     {
         public Guid Id { get; set; }
 
